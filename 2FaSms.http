@@ -1,0 +1,6 @@
+@_2FaSms_HostAddress = http://localhost:5148
+
+GET {{_2FaSms_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
