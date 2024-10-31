@@ -7,40 +7,31 @@ namespace _2FaSms.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class SendSmsController : ControllerBase
+    public class SendSMSController : ControllerBase
     {
-        private readonly string accountSid = "xxxx";
-        private readonly string authToken = "xxxx";
+        string accountSid = "xxxxxx";
+        string authToken = "xxxxxx";
 
-
-         public SendSmsController()
+        [HttpPost("SendText")]
+        public ActionResult SendText(string phoneNumber)
         {
             TwilioClient.Init(accountSid, authToken);
+
+            var otp = GenerateOtp();
+            var message = MessageResource.Create(
+                body: $"Your OTP code is {otp}",
+                from: new Twilio.Types.PhoneNumber("+19189217023"),
+                to: new Twilio.Types.PhoneNumber("+66" + phoneNumber)
+            );
+
+            return StatusCode(200, new { message = message.Sid });
         }
 
-        [HttpPost("send-sms")]
-        public IActionResult SendSms([FromBody] SendSmsRequest request)
+        private string GenerateOtp()
         {
-            try
-            {
-                var message = MessageResource.Create(
-                    body: request.Body,
-                    from: new PhoneNumber("+19189217023"), // Your Twilio number
-                    to: new PhoneNumber(request.To) // The recipient's phone number
-                );
-
-                return Ok(new { MessageSid = message.Sid });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Error = ex.Message });
-            }
+            Random random = new Random();
+            int OtpNumber = random.Next(100000, 999999);
+            return OtpNumber.ToString();
         }
-    }
-
-    public class SendSmsRequest
-    {
-        public string To { get; set; }
-        public string Body { get; set; }
     }
 }
