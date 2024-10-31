@@ -9,8 +9,8 @@ namespace _2FaSms.Controllers
     [Route("api/[controller]")]
     public class SendSmsController : ControllerBase
     {
-        private readonly string accountSid = "AC0d6a4cd0e8f3552d4c788b2d43a23ec9";
-        private readonly string authToken = "a657cd7ea539df2d10981b03680ceabc";
+        private readonly string accountSid = "xxxx";
+        private readonly string authToken = "xxxx";
 
 
          public SendSmsController()
