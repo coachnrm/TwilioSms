@@ -9,17 +9,21 @@ namespace _2FaSms.Controllers
     [Route("api/[controller]")]
     public class SendSMSController : ControllerBase
     {
-        string accountSid = "xxxxxx";
-        string authToken = "xxxxxx";
+        string accountSid = "xxxx";
+        string authToken = "xxxx";
+        string ServiceSID = "xxxx";
 
         [HttpPost("SendText")]
-        public ActionResult SendText(string phoneNumber)
+        public ActionResult SendOtp(string phoneNumber)
         {
             TwilioClient.Init(accountSid, authToken);
 
-            var otp = GenerateOtp();
+            //var otp = GenerateOtp();
+            Random generator = new Random();
+            string randomotp = generator.Next(100000, 999999).ToString("D6");
+
             var message = MessageResource.Create(
-                body: $"Your OTP code is {otp}",
+                body: $"Your OTP code is {randomotp}",
                 from: new Twilio.Types.PhoneNumber("+19189217023"),
                 to: new Twilio.Types.PhoneNumber("+66" + phoneNumber)
             );
@@ -27,11 +31,13 @@ namespace _2FaSms.Controllers
             return StatusCode(200, new { message = message.Sid });
         }
 
-        private string GenerateOtp()
-        {
-            Random random = new Random();
-            int OtpNumber = random.Next(100000, 999999);
-            return OtpNumber.ToString();
-        }
+        // private string GenerateOtp()
+        // {
+        //     Random random = new Random();
+        //     int OtpNumber = random.Next(100000, 999999);
+        //     return OtpNumber.ToString();
+        // }
+
+
     }
 }

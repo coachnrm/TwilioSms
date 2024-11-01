@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddHttpClient<ITwilioRestClient, TwilioClient>();
-builder.Services.AddScoped<OtpService>();
+builder.Services.AddScoped<OtpService>(provider => new OtpService("xxxx"));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
