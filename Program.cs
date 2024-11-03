@@ -11,6 +11,15 @@ builder.Services.AddScoped<OtpService>(provider => new OtpService("xxxx"));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(option => 
+{
+    option.AddDefaultPolicy(
+        Policy =>
+        {
+            Policy.AllowAnyOrigin();
+        }
+    );
+});;
 
 var app = builder.Build();
 
@@ -20,6 +29,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().WithMethods("GET, PATCH, DELETE, PUT, POST, OPTIONS"));
 
 app.UseHttpsRedirection();
 
